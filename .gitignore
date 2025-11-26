@@ -1,0 +1,16 @@
+#Secret
+config.sh
+.env
+*.env
+env.sh
+
+#Python
+ml-env/
+venv/
+__pycache__/
+*.pyc
+
+#Big stuff
+yolov8n.pt
+photos/
+videos/
