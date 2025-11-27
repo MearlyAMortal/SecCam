@@ -13,12 +13,12 @@ if not frames_path or not os.listdir(frames_path):
 
 frames = sorted(Path(frames_path).glob("frame_*.jpg"))
 
-MAX_FRAMES = 5
+MAX_FRAMES = 10
 if len(frames) > MAX_FRAMES:
     step = len(frames) // MAX_FRAMES
     frames = frames[::step]
 
-results = model(source=frames, imgsz=320, batch=4)
+results = model(source=frames, imgsz=480, batch=4, conf=0.5)
 
 human_class_id = 0
 max_humans = 0

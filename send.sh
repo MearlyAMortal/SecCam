@@ -40,11 +40,15 @@ GIF_FILE="$TODAY_DIR/output_$FILE_TIMESTAMP.gif"
 ffmpeg -pattern_type glob -i "$FRAMES_DIR/frame_*.jpg" -vf "fps=$FRAMERATE,scale=320:-1:flags=lanczos" "$GIF_FILE"
 
 #Counts humans using vision script (Propogates STOUT two times: vision.py -> vision.sh -> here)
-HUMAN_COUNT=$(./vision.sh) || { echo "ERROR: send.sh vision.py failed to return 0"; exit 1; }
+#HUMAN_COUNT=$(./vision.sh | tr -dc '0-9')
+HUMAN_COUNT=$(./vision.sh | tail -n1 | grep -o '^[0-9]\+')
+#HUMAN_COUNT=1
+
 
 
 #Remove frames used for YOLO and GIF generation
-rm -f "$PHOTOS_DIR"/frames/frame_*.jpg
+#rm -f "$PHOTOS_DIR"/frames/frame_*.jpg
+
 
 
 #Send GIF to telegram if humans are present
@@ -65,4 +69,4 @@ else
     echo "No humans detected."
 fi
 
-} 2>/dev/null
+} > /dev/null 2>&1
