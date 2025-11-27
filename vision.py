@@ -1,21 +1,31 @@
 import os
+import sys
+from pathlib import Path
 from ultralytics import YOLO
 
 model = YOLO("yolov8n.pt")
 
 image_path = os.environ.get("CONF_IMAGE_DIR")
-if not image_path:
-    raise ValueError("CONF_IMAGE_DIR not set")
+frames_path = os.environ.get("CONF_FRAMES_DIR")
 
+if not frames_path or not os.listdir(frames_path):
+    raise ValueError("ERROR: vision.py frame reading.")
 
-results = model(source=image_path)
+frames = sorted(Path(frames_path).glob("frame_*.jpg"))
 
-# Count humans
-human_count = 0
-for box in results[0].boxes:
-    cls = int(box.cls[0])
-    conf = float(box.conf[0])
-    if cls == 0 and conf > 0.5:
-        human_count += 1
+MAX_FRAMES = 5
+if len(frames) > MAX_FRAMES:
+    step = len(frames) // MAX_FRAMES
+    frames = frames[::step]
 
-print(f"Humans detected: {human_count}")
+results = model(source=frames, imgsz=320, batch=4)
+
+human_class_id = 0
+max_humans = 0
+for r in results:
+    humans = sum(1 for x in r.boxes if x.cls == human_class_id)
+    if humans > max_humans:
+        max_humans = humans
+
+print(max_humans)
+sys.exit(0) 
