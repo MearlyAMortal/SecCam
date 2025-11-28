@@ -1,33 +1,36 @@
-#!/home/logan/ml-env/bin/python3
+# AUTHOR: Logan Puntous
+# DATE: 11/28/2025
 
-#Listens for esp32 to send signal through GPIO
-#Executes the send.sh script upon signal
+# Listens for esp32 to send signal through GPIO 17
+# Executes the send.sh script upon signal
+# Waits for send.sh to finish before continuing
 
-import lgpio
+import RPi.GPIO as GPIO
 import subprocess
+import signal
 import time
+import sys
+import os
 
-CHIP = 0
-PIN = 18
-SCRIPT = "/home/logan/Projects/SecCam/send.sh"
+PIN = 17
+SCRIPT = os.environ.get("CONF_SEND_SCRIPT")
 
-handle = lgpio.gpiochip_open(CHIP)
-lgpio.gpio_claim_input(handle, PIN, lgpio.SET_PULL_DOWN)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-def trigger(pin, tick):
-    print("Trigger received!")
-    subprocess.Popen([SCRIPT])
+print("Listening for signal from GPIO %d..." % PIN)
 
-callback = lgpio.callback(handle, PIN, lgpio.RISING_EDGE, trigger)
-
-print("Listening for GPIO triggers on pin %d" % PIN)
-
-#Loop
 try:
     while True:
-        time.sleep(1)
+        if GPIO.input(PIN):  # HIGH detected
+            print("Trigger received!")
+            subprocess.run([SCRIPT])
+            # Wait until pin goes LOW
+            while GPIO.input(PIN):
+                time.sleep(0.05)
+        time.sleep(0.05)
 
 except KeyboardInterrupt:
     print("\nExiting...")
-    callback.cancel()
-    lgpio.gpiochip_close(handle)
+    GPIO.cleanup()
+    sys.exit(0)
