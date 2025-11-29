@@ -49,7 +49,7 @@ HUMAN_COUNT=$(./vision.sh | tail -n1 | grep -o '^[0-9]\+')
 
 
 #Delete frames used for previous sections
-rm -f "$PHOTOS_DIR"/frames/frame_*.jpg
+#rm -f "$PHOTOS_DIR"/frames/frame_*.jpg
 
 
 #Send GIF to telegram if humans are present

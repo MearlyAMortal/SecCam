@@ -15,3 +15,6 @@ __pycache__/
 yolov8n.pt
 photos/
 videos/
+
+#Temporary
+in_progress.py

@@ -9,6 +9,7 @@ import RPi.GPIO as GPIO
 import subprocess
 import signal
 import time
+from datetime import datetime
 import sys
 import os
 
@@ -23,7 +24,7 @@ print("Listening for signal from GPIO %d..." % PIN)
 try:
     while True:
         if GPIO.input(PIN):  # HIGH detected
-            print("Trigger received!")
+            print("Trigger received at %s" % datetime.now().strftime("%H:%M:%S"))
             subprocess.run([SCRIPT])
             # Wait until pin goes LOW
             while GPIO.input(PIN):
