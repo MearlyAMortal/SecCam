@@ -1,14 +1,20 @@
 # SecCam
 ## A modular day/night security camera system using radar-based motion detection (ESP32), UART communication with a Raspberry Pi, and a machine-vision (YOLO) human detection pipeline that generates animated GIF alerts and sends them to Telegram.
 
-# 📸 Examples
-### Left telegram caption (day): "2 Humans spotted at 2025-11-28 16:25:52"
-### Right telegram caption (night): "Human spotted at 2025-11-28 17:59:39"
+# 📸 Examples w/ telegram captions
+### Left (day): "2 Humans spotted at 2025-11-28 16:25:52"
+### Middle (night): "Human spotted at 2025-11-28 17:59:39"
+### Right (low-light): "Human spotted at 2025-11-29 00:37:44"
 ![Alt text](example_day.gif)
 ![Alt text](example_night.gif)
+![Alt text](example_day2.gif)
+
+YOLO was able to detect the correct amount of people reliably in ~5 seconds (tested up to four people)
 
 # 📁 Overview
-### SecCam is a hybrid hardware/software security system designed for reliable outdoor or indoor monitoring, even in low-light or no-light environments.
+### SecCam is a hybrid hardware/software security system designed for reliable outdoor or indoor monitoring, even in low-light or no-light environments. 
+Little to no downtime for camera (Sensor triggers -> ~10 seconds -> GIF appears in chat -> loop begin)
+
 Pipeline:
 1. Human radar sensor connected to an ESP32 via GPIO
 2. Serial UART connection to RaspberryPi3b+
@@ -40,8 +46,8 @@ SecCam is optimized for low power, low false positives, and real-time responsive
            │    HMMD Radar Module    │
            └─────────┬───────────────┘
                      │
-                     │ Data: TX  ──► RX2   (ESP32)
-                     │ Power: 3V3 ──► 3V3  (ESP32)
+                     │ Data: TX  ──► RX2 (ESP32)
+                     │ Power: 3V3 ──► 3V3 (ESP32)
                      │ Ground: GND ──► GND (ESP32)
                      │
                 ┌────┴───────┐
@@ -49,8 +55,8 @@ SecCam is optimized for low power, low false positives, and real-time responsive
                 └────┬───────┘
                      │
                      │ Data: GPIO23 ──► GPIO17 (Pi)
-                     │ Power: VIN  ───► 5V     (Pi)
-                     │ Ground: GND ───► GND    (Pi)
+                     │ Power: VIN  ───► 5V (Pi)
+                     │ Ground: GND ───► GND (Pi)
                      │
            ┌─────────┴──────────────┐
            │    Raspberry Pi 3B+    │
@@ -70,7 +76,7 @@ SecCam is optimized for low power, low false positives, and real-time responsive
 git clone https://github.com/MearlyAMortal/SecCam.git
 cd SecCam
 ```
-### Install Raspberry Pi dependencies
+### Setup Raspberry Pi
 1. Create virtual environment:
    ```
    python3 -m venv ~/ml-env
@@ -115,9 +121,13 @@ Upload the firmware in SecCam/esp32_send.ino using Arduino IDE (ESP32 Dev Board,
 Full guide to setup bot [HERE](https://apidog.com/blog/beginners-guide-to-telegram-bot-api/)
 
 # 💻 Usage
+To start:
 ```
 ./listen.sh
 ```
+To stop:
+
+CTRL+c (SIGINT)
 
 ## © License and Contact
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
