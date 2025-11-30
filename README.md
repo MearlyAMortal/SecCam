@@ -3,7 +3,7 @@
 
 # 📸 Examples w/ telegram captions
 ### Left (day): "2 Humans spotted at 2025-11-28 16:25:52"
-### Middle (night): "Human spotted at 2025-11-28 17:59:39"
+### Right (night): "Human spotted at 2025-11-28 17:59:39"
 
 ![Alt text](examples/example_day.gif)
 ![Alt text](examples/example_night.gif)
