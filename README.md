@@ -117,6 +117,6 @@ Full guide to setup bot [HERE](https://apidog.com/blog/beginners-guide-to-telegr
 ```
 
 # License and Contact
-## This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-## Contact me: [GitHub profile](https://github.com/MearlyAMortal)
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Contact me: [GitHub profile](https://github.com/MearlyAMortal)
 
