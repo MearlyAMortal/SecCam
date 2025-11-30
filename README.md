@@ -113,6 +113,10 @@ cd SecCam
    #Listen
    export CONF_SEND_SCRIPT="your full send.sh directory path (should be in /home/.../SecCam/send.sh)"
    ```
+6. Edit permissions
+   ```
+   chmod +x listen.sh send.sh vision.sh
+   ```
    
 ### ESP32
 Upload the firmware in SecCam/esp32_send.ino using Arduino IDE (ESP32 Dev Board, speed 115200).
