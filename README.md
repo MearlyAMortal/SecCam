@@ -1,11 +1,11 @@
 # SecCam
 ## A modular day/night security camera system using radar-based motion detection (ESP32), UART communication with a Raspberry Pi, and a machine-vision (YOLO) human detection pipeline that generates animated GIF alerts and sends them to Telegram.
 
-# Examples
+# 📸 Examples
 
 
-# 📸 Overview
-## SecCam is a hybrid hardware/software security system designed for reliable outdoor or indoor monitoring, even in low-light or no-light environments.
+# 📁 Overview
+### SecCam is a hybrid hardware/software security system designed for reliable outdoor or indoor monitoring, even in low-light or no-light environments.
 Pipeline:
 1. Human radar sensor connected to an ESP32 via GPIO
 2. Serial UART connection to RaspberryPi3b+
@@ -62,12 +62,12 @@ SecCam is optimized for low power, low false positives, and real-time responsive
 
 
 # 📦 Setup and Installation
-## Clone the repo
+### Clone the repo
 ```
 git clone https://github.com/MearlyAMortal/SecCam.git
 cd SecCam
 ```
-## Install Raspberry Pi dependencies
+### Install Raspberry Pi dependencies
 1. Create virtual environment:
    ```
    python3 -m venv ~/ml-env
@@ -105,10 +105,10 @@ cd SecCam
    export CONF_SEND_SCRIPT="your full send.sh directory path (should be in /home/.../SecCam/send.sh)"
    ```
    
-## ESP32
+### ESP32
 Upload the firmware in SecCam/esp32_send.ino using Arduino IDE (ESP32 Dev Board, speed 115200).
 
-## Telegram Bot setup
+### Telegram Bot setup
 Full guide to setup bot [HERE](https://apidog.com/blog/beginners-guide-to-telegram-bot-api/)
 
 # 💻 Usage
@@ -116,7 +116,8 @@ Full guide to setup bot [HERE](https://apidog.com/blog/beginners-guide-to-telegr
 ./listen.sh
 ```
 
-# License and Contact
+## © License and Contact
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
 Contact me: [GitHub profile](https://github.com/MearlyAMortal)
 
