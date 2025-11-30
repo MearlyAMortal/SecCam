@@ -4,10 +4,10 @@
 # 📸 Examples w/ telegram captions
 ### Left (day): "2 Humans spotted at 2025-11-28 16:25:52"
 ### Middle (night): "Human spotted at 2025-11-28 17:59:39"
-### Right (low-light): "Human spotted at 2025-11-29 00:37:44"
+
 ![Alt text](examples/example_day.gif)
 ![Alt text](examples/example_night.gif)
-![Alt text](examples/example_day2.gif)
+
 
 YOLO was able to detect the correct amount of people reliably in ~5 seconds (tested up to four people)
 
