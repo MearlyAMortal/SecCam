@@ -2,7 +2,10 @@
 ## A modular day/night security camera system using radar-based motion detection (ESP32), UART communication with a Raspberry Pi, and a machine-vision (YOLO) human detection pipeline that generates animated GIF alerts and sends them to Telegram.
 
 # 📸 Examples
-
+### Left telegram caption (day): "2 Humans spotted at 2025-11-28 16:25:52"
+### Right telegram caption (night): "Human spotted at 2025-11-28 17:59:39"
+![Alt text](example_day.gif)
+![Alt text](example_night.gif)
 
 # 📁 Overview
 ### SecCam is a hybrid hardware/software security system designed for reliable outdoor or indoor monitoring, even in low-light or no-light environments.
