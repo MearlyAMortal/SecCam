@@ -70,13 +70,13 @@ SecCam is optimized for low power, low false positives, and real-time responsive
              Smartphone Alerts
 
 
-# 📦 Setup and Installation
+# 📦 Setup and Installation on Pi
 ### Clone the repo
 ```
 git clone https://github.com/MearlyAMortal/SecCam.git
 cd SecCam
 ```
-### Setup Raspberry Pi
+### Setup Enviroment
 1. Create virtual environment:
    ```
    python3 -m venv ~/ml-env
