@@ -1,7 +1,7 @@
 # SecCam
 ## A modular day/night security camera system using radar-based motion detection (ESP32), UART communication with a Raspberry Pi, and a machine-vision (YOLO) human detection pipeline that generates animated GIF alerts and sends them to Telegram.
 
-# 📸 Examples w/ telegram captions
+# Examples w/ telegram captions
 ### Left (day): "2 Humans spotted at 2025-11-28 16:25:52"
 ### Right (night): "Human spotted at 2025-11-28 17:59:39"
 
@@ -11,19 +11,19 @@
 
 YOLO was able to detect the correct amount of people reliably in ~5 seconds (tested up to four people)
 
-# 📁 Overview
+# Overview
 ### SecCam is a hybrid hardware/software security system designed for reliable outdoor or indoor monitoring, even in low-light or no-light environments. 
-Little to no downtime for camera (Sensor triggers -> ~10 seconds -> GIF appears in chat -> loop begin)
+Little to no downtime for camera (Sensor triggers -> ~10 seconds -> GIF appears in chat -> waiting for sensor))
 
 Pipeline:
 1. Human radar sensor connected to an ESP32 via GPIO
 2. Serial UART connection to RaspberryPi3b+
 3. YOLO based machine-vision human detection
-4. Frame capture -> GIF generation -> Telegram alerts
+4. GIF generation -> Telegram API alerts
 
 SecCam is optimized for low power, low false positives, and real-time responsiveness.
 
-# 📡 Tech Stack
+# Tech Stack
 ## Hardware / Communication
 * HMMD-MMWave-Sensor [Buy](https://www.amazon.com/gp/product/B0DKFKZ867/ref=ox_sc_saved_title_3?smid=A3B0XDFTVR980O&psc=1)
 * ESP32 Dev Board (handles radar data) [Buy](https://www.amazon.com/gp/product/B07WCG1PLV/ref=ox_sc_saved_title_2?smid=A2Z10KY0342329&th=1)
@@ -41,23 +41,21 @@ SecCam is optimized for low power, low false positives, and real-time responsive
 * curl (Telegram API sending)
 * Telegram Bot API
 
-# 🔌 System Architecture/Wiring
+# System Architecture/Wiring
            ┌─────────────────────────┐
            │    HMMD Radar Module    │
            └─────────┬───────────────┘
-                     │
-                     │ Data: TX  ──► RX2 (ESP32)
-                     │ Power: 3V3 ──► 3V3 (ESP32)
-                     │ Ground: GND ──► GND (ESP32)
-                     │
+                     │ Module: (Radar) ──► (ESP32)
+                     │ Data:       TX  ──► RX2
+                     │ Power:      3V3 ──► 3V3
+                     │ Ground:     GND ──► GND
                 ┌────┴───────┐
                 │   ESP32    │
                 └────┬───────┘
-                     │
-                     │ Data: GPIO23 ──► GPIO17 (Pi)
-                     │ Power: VIN  ───► 5V (Pi)
-                     │ Ground: GND ───► GND (Pi)
-                     │
+                     │ Module: (ESP32) ──► (Pi)
+                     │ Data:    GPIO23 ──► GPIO17
+                     │ Power:    VIN  ───► 5V
+                     │ Ground:    GND ───► GND
            ┌─────────┴──────────────┐
            │    Raspberry Pi 3B+    │
            │ - Frame Capture        │   USB   ┌───────────────┐
@@ -70,7 +68,7 @@ SecCam is optimized for low power, low false positives, and real-time responsive
              Smartphone Alerts
 
 
-# 📦 Setup and Installation on Pi
+# Setup and Installation on Pi
 ### Clone the repo
 ```
 git clone https://github.com/MearlyAMortal/SecCam.git
@@ -124,7 +122,7 @@ Upload the firmware in SecCam/esp32_send.ino using Arduino IDE (ESP32 Dev Board,
 ### Telegram Bot setup
 Full guide to setup bot [HERE](https://apidog.com/blog/beginners-guide-to-telegram-bot-api/)
 
-# 💻 Usage
+# Usage
 To start:
 ```
 ./listen.sh
@@ -132,6 +130,10 @@ To start:
 To stop:
 
 CTRL+c (SIGINT)
+
+# Goals
+* Add multithreading and circular que frame system for continuous motion detection
+
 
 ## © License and Contact
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
