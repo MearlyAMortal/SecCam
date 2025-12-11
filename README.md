@@ -100,16 +100,23 @@ cd SecCam
    config.sh
    ```
    #!/bin/bash
-   #Vision
-   export CONF_FRAMES_DIR="your full frames directory path (should be in /home/.../SecCam/photos/frames)"
-    
-   #Send
-   export CONF_PHOTOS_DIR="your full photos directory path (should be in /home/.../SecCam/photos)"
-   export CONF_BOT_TOKEN="your telegram bot token"
-   export CONF_CHAT_ID="your telegram chat id"
-    
-   #Listen
-   export CONF_SEND_SCRIPT="your full send.sh directory path (should be in /home/.../SecCam/send.sh)"
+
+   #Working directory
+   export CONF_PARENT_DIR="should be .../SecCam"
+   export CONF_VIRTUAL_ENV="should be .../ml-env/bin/activate"
+
+   #Telegram
+   export CONF_BOT_TOKEN="YOUR BOT TOKEN"
+   export CONF_CHAT_ID="YOUR CHAT ID"
+
+   #Child directories
+   export CONF_PHOTOS_DIR="$CONF_PARENT_DIR/photos"
+   export CONF_FRAMES_DIR="$CONF_PHOTOS_DIR/frames"
+   export CONF_GIF_DIR="$CONF_PHOTOS_DIR/gifs"
+   export CONF_LOG_DIR="$CONF_PARENT_DIR/log"
+
+   #Scipts
+   export CONF_SEND_SCRIPT="$CONF_PARENT_DIR/send.sh"
    ```
 6. Edit permissions
    ```
