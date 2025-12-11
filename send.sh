@@ -16,17 +16,24 @@ source ./config.sh
 FILE_TIMESTAMP=$(date '+%Y-%m-%d_%H-%M-%S')
 DISPLAY_TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 PHOTOS_DIR="$CONF_PHOTOS_DIR"
-FRAMES_DIR="$PHOTOS_DIR/frames"
-TODAY_DIR="$PHOTOS_DIR/gifs/$(date +%F)"
+FRAMES_DIR="$CONF_FRAMES_DIR"
+TODAY_DIR="$CONF_GIF_DIR/$(date +%F)"
+LOG_DIR="$CONF_LOG_DIR"
 
-mkdir -p "$FRAMES_DIR"
 mkdir -p "$TODAY_DIR"
+
+active_log_file=$(find "$LOG_DIR" -maxdepth 1 -type f ! -name "*.txt" | head -n1)
+if [ -z "$active_log_file" ]; then
+    echo "No active log file found"
+else
+    #Atomic
+    echo "Movement detected at $DISPLAY_TIMESTAMP" >> "$active_log_file"
+fi
 
 #Camera settings
 FRAMERATE=5
 FRAMES=90
 RESOLUTION="640x480"
-
 
 #Takes multiple frames in YOLO format
 ffmpeg -f v4l2 -input_format mjpeg -video_size "$RESOLUTION" -framerate "$FRAMERATE" -i /dev/video0 -frames:v "$FRAMES" "$FRAMES_DIR/frame_%03d.jpg"
@@ -37,10 +44,10 @@ shopt -s nullglob
 files=("$FRAMES_DIR"/frame_*.jpg)
 FRAME_COUNT=${#files[@]}
 if [ "$FRAME_COUNT" -eq 0 ]; then
-    echo "ERROR: send.sh no frames found" >&2
+    echo "ERROR: send.sh no frames found"
     exit 1
 fi
-GIF_FILE="$TODAY_DIR/output_$FILE_TIMESTAMP.gif"
+GIF_FILE="$TODAY_DIR/$FILE_TIMESTAMP.gif"
 ffmpeg -pattern_type glob -i "$FRAMES_DIR/frame_*.jpg" -vf "fps=$FRAMERATE,scale=320:-1:flags=lanczos" "$GIF_FILE"
 
 
@@ -52,7 +59,7 @@ HUMAN_COUNT=$(./vision.sh | tail -n1 | grep -o '^[0-9]\+')
 #rm -f "$PHOTOS_DIR"/frames/frame_*.jpg
 
 
-#Send GIF to telegram if humans are present
+#Send GIF to telegram and writes to log if humans are present
 if [ "$HUMAN_COUNT" -gt 0 ]; then
     if [ "$HUMAN_COUNT" -eq 1 ]; then
         CAPTION="Human spotted at $DISPLAY_TIMESTAMP"
@@ -63,8 +70,11 @@ if [ "$HUMAN_COUNT" -gt 0 ]; then
     BOT_TOKEN="$CONF_BOT_TOKEN"
     CHAT_ID="$CONF_CHAT_ID"
 
-    #Sends GIF to telegram
-    curl -s -X POST https://api.telegram.org/bot"$BOT_TOKEN"/sendAnimation -F chat_id="$CHAT_ID" -F animation="@$GIF_FILE" -F caption="$CAPTION" 
+    #Sends GIF to telegram and writes to log atomically 
+    curl -s -X POST https://api.telegram.org/bot"$BOT_TOKEN"/sendAnimation -F chat_id="$CHAT_ID" -F animation="@$GIF_FILE" -F caption="$CAPTION"
+    echo "$CAPTION" >> "$active_log_file"
 fi
+
+
 
 } > /dev/null 2>&1
