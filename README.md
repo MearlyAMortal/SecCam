@@ -1,5 +1,5 @@
 # SecCam
-## A modular day/night security camera system using radar-based motion detection (ESP32), UART communication with a Raspberry Pi, and a machine-vision (YOLO) human detection pipeline that generates animated GIF alerts and sends them to Telegram.
+## A versitile day/night security camera system using radar-based motion detection, UART/GPIO communication with a Raspberry Pi, and a machine-vision human detection pipeline that generates animated GIF alerts and sends them to Telegram.
 
 # Examples w/ telegram captions
 ### Left (day): "2 Humans spotted at 2025-11-28 16:25:52"
@@ -9,11 +9,11 @@
 ![Alt text](examples/example_night.gif)
 
 
-YOLO was able to detect the correct amount of people reliably in ~5 seconds (tested up to four people)
+YOLO was able to detect the correct amount of people reliably in ~5 seconds with optimization (tested up to four people)
 
 # Overview
-### SecCam is a hybrid hardware/software security system designed for reliable outdoor or indoor monitoring, even in low-light or no-light environments. 
-Little to no downtime for camera (Sensor triggers -> ~10 seconds -> GIF appears in chat -> waiting for sensor))
+### SecCam is a hybrid hardware/software security system designed for continuous outdoor or indoor monitoring, even in low-light or no-light environments. 
+Updated recently using process groups to prioritize frame capture and minimize downtime.
 
 Pipeline:
 1. Human radar sensor connected to an ESP32 via GPIO
@@ -137,6 +137,11 @@ To start:
 To stop:
 
 CTRL+c (SIGINT)
+
+# Logs
+Can be found in the generated log directory. (12-12-25_12-12-25.txt)
+The files are generated using the start date and the end date is appended after program execution.
+Duplicate file names will not overwrite old ones and instead increment a number at the end. (12-12-25_12-12-25_2.txt)
 
 # Goals
 * Add multithreading and circular que frame system for continuous motion detection
