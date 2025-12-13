@@ -143,9 +143,6 @@ Can be found in the generated log directory. (12-12-25_12-12-25.txt)
 The files are generated using the start date and the end date is appended after program execution.
 Duplicate file names will not overwrite old ones and instead increment a number at the end. (12-12-25_12-12-25_2.txt)
 
-# Goals
-* Add multithreading and circular que frame system for continuous motion detection
-
 
 ## © License and Contact
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
